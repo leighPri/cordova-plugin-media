@@ -572,6 +572,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                     if (this.player == null) {
                         this.player = new MediaPlayer();
                         this.player.setOnErrorListener(this);
+                        this.player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
                     }
                     try {
                         this.loadAudioFile(file);
@@ -596,6 +597,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                             this.player = new MediaPlayer();
                             this.player.setOnErrorListener(this);
                             this.prepareOnly = false;
+                            this.player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
 
                             try {
                                 this.loadAudioFile(file);

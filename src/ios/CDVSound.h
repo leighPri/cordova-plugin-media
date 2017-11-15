@@ -26,7 +26,8 @@ enum CDVMediaError {
     MEDIA_ERR_ABORTED = 1,
     MEDIA_ERR_NETWORK = 2,
     MEDIA_ERR_DECODE = 3,
-    MEDIA_ERR_NONE_SUPPORTED = 4
+    MEDIA_ERR_NONE_SUPPORTED = 4,
+    MEDIA_END_INTERRUPT = 5
 };
 typedef NSUInteger CDVMediaError;
 
@@ -87,12 +88,11 @@ typedef NSUInteger CDVMediaMsg;
     NSString* currMediaId;
     AVAudioSession* avSession;
     AVPlayer* avPlayer;
-    NSString* statusCallbackId;
+    NSURL* streamURL;
 }
 @property (nonatomic, strong) NSMutableDictionary* soundCache;
 @property (nonatomic, strong) AVAudioSession* avSession;
 @property (nonatomic, strong) NSString* currMediaId;
-@property (nonatomic, strong) NSString* statusCallbackId;
 
 - (void)startPlayingAudio:(CDVInvokedUrlCommand*)command;
 - (void)pausePlayingAudio:(CDVInvokedUrlCommand*)command;
@@ -112,7 +112,7 @@ typedef NSUInteger CDVMediaMsg;
 - (CDVAudioFile*)audioFileForResource:(NSString*)resourcePath withId:(NSString*)mediaId doValidation:(BOOL)bValidate forRecording:(BOOL)bRecord;
 - (CDVAudioFile*)audioFileForResource:(NSString*)resourcePath withId:(NSString*)mediaId doValidation:(BOOL)bValidate forRecording:(BOOL)bRecord suppressValidationErrors:(BOOL)bSuppress;
 - (BOOL)prepareToPlay:(CDVAudioFile*)audioFile withId:(NSString*)mediaId;
-- (NSDictionary*)createMediaErrorWithCode:(CDVMediaError)code message:(NSString*)message;
+- (NSString*)createMediaErrorWithCode:(CDVMediaError)code message:(NSString*)message;
 
 - (void)startRecordingAudio:(CDVInvokedUrlCommand*)command;
 - (void)stopRecordingAudio:(CDVInvokedUrlCommand*)command;
