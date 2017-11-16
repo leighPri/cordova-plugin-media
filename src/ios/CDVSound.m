@@ -231,7 +231,7 @@
         [self.commandDelegate evalJs:jsString];
     } else {
         NSURL* resourceUrl = audioFile.resourceURL;
-        
+
         streamURL = resourceUrl;
 
         if (![resourceUrl isFileURL] && ![resourcePath hasPrefix:CDVFILE_PREFIX]) {
@@ -427,7 +427,7 @@
                      ofObject:(id)object
                        change:(NSDictionary*)change
                       context:(void*)context {
-    
+
     if ([keyPath isEqualToString:@"rate"]) {
         if (avPlayer.rate == 0) {
             [self performSelector:@selector(restartStream) withObject:nil afterDelay:0.1];
@@ -839,27 +839,27 @@
 -(void)itemStalledPlaying:(NSNotification *) notification {
     // Will be called when playback stalls due to buffer empty
     NSLog(@"Stalled playback");
-    
+
     [self performSelector:@selector(restartStream) withObject:nil afterDelay:0.3];
 }
 
 -(void)restartStream {
     NSLog(@"Restart stream");
-    
-    
+
+
     [avPlayer removeObserver:self forKeyPath:@"rate"];
     [avPlayer pause];
     avPlayer = nil;
-    
-    
+
+
     AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:streamURL];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemDidFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemStalledPlaying:) name:AVPlayerItemPlaybackStalledNotification object:playerItem];
-    
+
     avPlayer = [[AVPlayer alloc] initWithPlayerItem:playerItem];
     [avPlayer addObserver:self forKeyPath:@"rate" options:0 context:nil];
-    
+
     [avPlayer play];
 }
 
@@ -971,7 +971,7 @@
     NSString* mediaId = aPlayer.mediaId;
     CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
     NSString* jsString = nil;
-    
+
     if (audioFile != nil) {
         NSLog(@"Ended Interruption of playing audio sample '%@'", audioFile.resourcePath);
     }
@@ -980,7 +980,7 @@
     } else {
         jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%@);", @"cordova.require('org.apache.cordova.media.Media').onStatus", mediaId, MEDIA_ERROR, [self createMediaErrorWithCode:MEDIA_ERR_DECODE message:nil]];
     }
-    
+
     [self.commandDelegate evalJs:jsString];
 }
 

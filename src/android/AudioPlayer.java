@@ -25,6 +25,7 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.os.PowerManager;
 
 import org.apache.cordova.LOG;
 
@@ -572,7 +573,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                     if (this.player == null) {
                         this.player = new MediaPlayer();
                         this.player.setOnErrorListener(this);
-                        this.player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                        this.player.setWakeMode(handler.cordova.getActivity().getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
                     }
                     try {
                         this.loadAudioFile(file);
@@ -597,8 +598,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                             this.player = new MediaPlayer();
                             this.player.setOnErrorListener(this);
                             this.prepareOnly = false;
-                            this.player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-
+                            this.player.setWakeMode(handler.cordova.getActivity().getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
                             try {
                                 this.loadAudioFile(file);
                             } catch (Exception e) {
