@@ -430,7 +430,7 @@
 
     if ([keyPath isEqualToString:@"rate"]) {
         if (avPlayer.rate == 0) {
-            [self performSelector:@selector(restartStream) withObject:nil afterDelay:0.1];
+            [self performSelector:@selector(stopPlayingAudio) withObject:nil afterDelay:0.1];
         }
     }
 }
