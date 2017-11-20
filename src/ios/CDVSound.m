@@ -430,7 +430,10 @@
 
     if ([keyPath isEqualToString:@"rate"]) {
         if (avPlayer.rate == 0) {
-            [self performSelector:@selector(stopPlayingAudio) withObject:nil afterDelay:0.1];
+          NSString* mediaId = self.currMediaId;
+          NSString* jsString = nil;
+          jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%d);", @"cordova.require('cordova-plugin-media.Media').onStatus", mediaId, MEDIA_STATE, MEDIA_PAUSED];
+          [self.commandDelegate evalJs:jsString];
         }
     }
 }
